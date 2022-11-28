@@ -1,9 +1,13 @@
-import interfejsy.DodanieProduktu;
+import metody.DodanieProduktu;
+import metody.DodanieSprzedazy;
+import metody.SzukanyProdukt;
 import model.Produkt;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.Scanner;
+
+import static metody.SzukanyProdukt.szukanyProdukt;
 
 public class Main {
     public static void main(String[] args) {
@@ -26,6 +30,23 @@ public class Main {
                 DodanieProduktu dodanieProduktu = new DodanieProduktu();
                 session.persist(dodanieProduktu.dodanieProduktu());
                 transaction.commit();
+            }catch (Exception e){
+                System.err.println("blad");
+            }
+        } else if(odpowiedz.equals("2")){
+            try(Session session = HibernateUtil.INSTANCE.getSessionFactory().openSession()){
+                Transaction transaction = session.beginTransaction();
+                System.out.println("podaj id produktu");
+                String idProduktu = scanner.nextLine();
+                Long id = Long.parseLong(idProduktu);
+                DodanieSprzedazy dodanieSprzedazy = new DodanieSprzedazy();
+                szukanyProdukt = session.get(Produkt.class, id);
+                if(szukanyProdukt != null) {
+                    session.persist(dodanieSprzedazy.dodanieSprzedazy());
+                    transaction.commit();
+                }else{
+                    System.err.println("taki produkt nie istnieje");
+                }
             }catch (Exception e){
                 System.err.println("blad");
             }

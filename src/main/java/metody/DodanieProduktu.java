@@ -1,4 +1,4 @@
-package interfejsy;
+package metody;
 
 import model.Kategoria;
 import model.Produkt;
