@@ -12,7 +12,7 @@
         <!-- DB schema will be updated if needed -->
         <property name="hibernate.hbm2ddl.auto">update</property>
 
-        <mapping class="Produkt"/>
-        <mapping class="Sprzedaz"/>
+        <mapping class="model.Produkt"/>
+        <mapping class="model.Sprzedaz"/>
     </session-factory>
 </hibernate-configuration>
