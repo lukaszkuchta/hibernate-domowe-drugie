@@ -105,9 +105,29 @@ public class Main {
                         }
                         session.remove(produkt);
                     }
+                }else{
+                    System.err.println("taki produkt nie istnieje");
                 }
                 transaction.commit();
             }catch (Exception e) {
+                System.err.println("blad");
+            }
+        }else if(odpowiedz.equals("8")){
+            try (Session session = HibernateUtil.INSTANCE.getSessionFactory().openSession()){
+                Transaction transaction = session.beginTransaction();
+                Produkt produkt = session.get(Produkt.class, new Usuwanie().usuwanieKtoreId());
+                if (produkt != null){
+                    if (!produkt.getSprzedaz().isEmpty()){
+                        for (Sprzedaz sprzedaz : produkt.getSprzedaz()) {
+                            session.merge("null", sprzedaz);
+                        }
+                        session.remove(produkt);
+                    }
+                } else{
+                    System.err.println("taki produkt nie istnieje");
+                }
+                transaction.commit();
+            } catch (Exception e) {
                 System.err.println("blad");
             }
         }
