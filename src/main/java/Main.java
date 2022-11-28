@@ -1,7 +1,7 @@
 import jakarta.persistence.TypedQuery;
 import metody.DodanieProduktu;
 import metody.DodanieSprzedazy;
-import metody.SzukanyProdukt;
+import metody.Usuwanie;
 import model.Produkt;
 import model.Sprzedaz;
 import org.hibernate.Session;
@@ -67,6 +67,47 @@ public class Main {
                 List<Sprzedaz> lista = zapytanie.getResultList();
                 lista.forEach(System.out::println);
             } catch (Exception e) {
+                System.err.println("blad");
+            }
+        }else if(odpowiedz.equals("5")){
+            try (Session session = HibernateUtil.INSTANCE.getSessionFactory().openSession()){
+                TypedQuery<Sprzedaz> zapytanie = session.createQuery("FROM Sprzedaz", Sprzedaz.class);
+                System.out.println("podaj id przedmiotu, ktorego chcesz zobaczyc sprzedaz");
+                String idPrzedmiotuDoWyswietleniaString = scanner.nextLine();
+                int idPrzedmiotuDoWyswietlenia = Integer.parseInt(idPrzedmiotuDoWyswietleniaString);
+                List<Sprzedaz> lista = zapytanie.getResultList();
+                Sprzedaz sprzedaz = new Sprzedaz();
+                for (int i = 0; i < lista.size(); i++) {
+
+                }
+            }
+        }else if(odpowiedz.equals("6")){
+            try (Session session = HibernateUtil.INSTANCE.getSessionFactory().openSession()){
+                Transaction transaction = session.beginTransaction();
+                Sprzedaz sprzedaz = session.get(Sprzedaz.class, new Usuwanie().usuwanieKtoreId());
+                if (sprzedaz != null) {
+                    session.remove(sprzedaz);
+                } else {
+                    System.err.println("Sprzedaz taka nie istnieje");
+                }
+                transaction.commit();
+            }catch (Exception e) {
+                System.err.println("blad");
+            }
+        }else if(odpowiedz.equals("7")){
+            try (Session session = HibernateUtil.INSTANCE.getSessionFactory().openSession()){
+                Transaction transaction = session.beginTransaction();
+                Produkt produkt = session.get(Produkt.class, new Usuwanie().usuwanieKtoreId());
+                if (produkt != null){
+                    if (!produkt.getSprzedaz().isEmpty()){
+                        for (Sprzedaz sprzedaz : produkt.getSprzedaz()) {
+                            session.remove(sprzedaz);
+                        }
+                        session.remove(produkt);
+                    }
+                }
+                transaction.commit();
+            }catch (Exception e) {
                 System.err.println("blad");
             }
         }
