@@ -1,10 +1,13 @@
+import jakarta.persistence.TypedQuery;
 import metody.DodanieProduktu;
 import metody.DodanieSprzedazy;
 import metody.SzukanyProdukt;
 import model.Produkt;
+import model.Sprzedaz;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.util.List;
 import java.util.Scanner;
 
 import static metody.SzukanyProdukt.szukanyProdukt;
@@ -48,6 +51,22 @@ public class Main {
                     System.err.println("taki produkt nie istnieje");
                 }
             }catch (Exception e){
+                System.err.println("blad");
+            }
+        } else if(odpowiedz.equals("3")){
+            try (Session session = HibernateUtil.INSTANCE.getSessionFactory().openSession()){
+                TypedQuery<Produkt> zapytanie = session.createQuery("FROM Produkt", Produkt.class);
+                List<Produkt> lista = zapytanie.getResultList();
+                lista.forEach(System.out::println);
+            }catch (Exception e) {
+                System.err.println("blad");
+            }
+        }else if(odpowiedz.equals("4")) {
+            try (Session session = HibernateUtil.INSTANCE.getSessionFactory().openSession()) {
+                TypedQuery<Sprzedaz> zapytanie = session.createQuery("FROM Sprzedaz", Sprzedaz.class);
+                List<Sprzedaz> lista = zapytanie.getResultList();
+                lista.forEach(System.out::println);
+            } catch (Exception e) {
                 System.err.println("blad");
             }
         }
