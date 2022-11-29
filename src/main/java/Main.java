@@ -123,8 +123,15 @@ public class Main {
                 if (produkt != null){
                     if (!produkt.getSprzedaz().isEmpty()){
                         for (Sprzedaz sprzedaz : produkt.getSprzedaz()) {
-                            DodanieSprzedazy dodanieSprzedazy = null;
-                            session.persist(dodanieSprzedazy.dodanieSprzedazy());
+                            Sprzedaz sprzedazZNullem = Sprzedaz.builder()
+                                    .produkt(null)
+                                    .cena(sprzedaz.getCena())
+                                    .ilosc(sprzedaz.getIlosc())
+                                    .build();
+                            session.persist(sprzedazZNullem);
+                        }
+                        for (Sprzedaz sprzedaz : produkt.getSprzedaz()) {
+                            session.remove(sprzedaz);
                         }
                         session.remove(produkt);
                     }

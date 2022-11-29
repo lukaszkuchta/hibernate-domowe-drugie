@@ -22,7 +22,6 @@ public class DodanieSprzedazy {
                 .cena(cena)
                 .ilosc(ilosc)
                 .build();
-
     }
 
 
