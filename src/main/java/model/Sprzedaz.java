@@ -23,6 +23,7 @@ public class Sprzedaz {
     @CreationTimestamp
     private LocalDateTime dataCzasSprzedazy;
 
+
     @ManyToOne
     @EqualsAndHashCode.Exclude
     private Produkt produkt;

@@ -74,11 +74,15 @@ public class Main {
                 TypedQuery<Sprzedaz> zapytanie = session.createQuery("FROM Sprzedaz", Sprzedaz.class);
                 System.out.println("podaj id przedmiotu, ktorego chcesz zobaczyc sprzedaz");
                 String idPrzedmiotuDoWyswietleniaString = scanner.nextLine();
-                int idPrzedmiotuDoWyswietlenia = Integer.parseInt(idPrzedmiotuDoWyswietleniaString);
+                Long idPrzedmiotuDoWyswietlenia = Long.parseLong(idPrzedmiotuDoWyswietleniaString);
+                Sprzedaz idProdukt = new Sprzedaz();
                 List<Sprzedaz> lista = zapytanie.getResultList();
-                Sprzedaz sprzedaz = new Sprzedaz();
-                for (int i = 0; i < lista.size(); i++) {
-
+                if(idProdukt.getId() != null) {
+                    for (Sprzedaz sprzedaz : lista) {
+                        System.out.println(sprzedaz);
+                    }
+                }else{
+                    System.out.println("null");
                 }
             }
         }else if(odpowiedz.equals("6")){
@@ -119,7 +123,8 @@ public class Main {
                 if (produkt != null){
                     if (!produkt.getSprzedaz().isEmpty()){
                         for (Sprzedaz sprzedaz : produkt.getSprzedaz()) {
-                            session.merge("null", sprzedaz);
+                            DodanieSprzedazy dodanieSprzedazy = null;
+                            session.persist(dodanieSprzedazy.dodanieSprzedazy());
                         }
                         session.remove(produkt);
                     }
@@ -130,6 +135,8 @@ public class Main {
             } catch (Exception e) {
                 System.err.println("blad");
             }
+        } else{
+            System.err.println("Nie poprawna komenda");
         }
     }
 }

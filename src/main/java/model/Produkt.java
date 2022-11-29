@@ -20,8 +20,9 @@ public class Produkt {
     @Enumerated(value = EnumType.STRING)
     private Kategoria kategoria;
 
-    //@Formula("(SELECT AVG(o.wartosc) FROM Ocena o WHERE o.uczen_id=id)")
-    //private Double sredniaWazona;
+//    @Formula("((SELECT SUM(s.ilosc*s.cena)/SUM(s.ilosc)) FROM Sprzedaz s WHERE s.produkt_id=id)")
+//    private Double sredniaWazona;
+
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
