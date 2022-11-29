@@ -30,8 +30,7 @@ public class Main {
         if(odpowiedz.equals("1")){
             try(Session session = HibernateUtil.INSTANCE.getSessionFactory().openSession()) {
                 Transaction transaction = session.beginTransaction();
-                DodanieProduktu dodanieProduktu = new DodanieProduktu();
-                session.persist(dodanieProduktu.dodanieProduktu());
+                session.persist(new DodanieProduktu().dodanieProduktu());
                 transaction.commit();
             }catch (Exception e){
                 System.err.println("blad");
@@ -42,10 +41,9 @@ public class Main {
                 System.out.println("podaj id produktu");
                 String idProduktu = scanner.nextLine();
                 Long id = Long.parseLong(idProduktu);
-                DodanieSprzedazy dodanieSprzedazy = new DodanieSprzedazy();
                 szukanyProdukt = session.get(Produkt.class, id);
                 if(szukanyProdukt != null) {
-                    session.persist(dodanieSprzedazy.dodanieSprzedazy());
+                    session.persist(new DodanieSprzedazy().dodanieSprzedazy());
                     transaction.commit();
                 }else{
                     System.err.println("taki produkt nie istnieje");
@@ -72,12 +70,12 @@ public class Main {
         }else if(odpowiedz.equals("5")){
             try (Session session = HibernateUtil.INSTANCE.getSessionFactory().openSession()){
                 TypedQuery<Sprzedaz> zapytanie = session.createQuery("FROM Sprzedaz", Sprzedaz.class);
-                System.out.println("podaj id przedmiotu, ktorego chcesz zobaczyc sprzedaz");
-                String idPrzedmiotuDoWyswietleniaString = scanner.nextLine();
-                Long idPrzedmiotuDoWyswietlenia = Long.parseLong(idPrzedmiotuDoWyswietleniaString);
+                System.out.println("podaj id produktu, ktorego chcesz zobaczyc sprzedaz");
+                String idProduktuDoWyswietleniaString = scanner.nextLine();
+                Long idProduktuDoWyswietlenia = Long.parseLong(idProduktuDoWyswietleniaString);
                 Sprzedaz idProdukt = new Sprzedaz();
                 List<Sprzedaz> lista = zapytanie.getResultList();
-                if(idProdukt.getId() != null) {
+                if(idProdukt.getProdukt().getId() != null) {
                     for (Sprzedaz sprzedaz : lista) {
                         System.out.println(sprzedaz);
                     }
